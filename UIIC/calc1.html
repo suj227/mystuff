@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Premium Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #faf41c;
+            margin: 0;
+        }
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 100px;
+            height: auto;
+        }
+        .calculator {
+            margin: 50px auto;
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+            background-color: #eef071;
+        }
+        .calculator label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .calculator input, .calculator select {
+            width: 100%;
+            height: 40px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .calculator button {
+            width: 100%;
+            height: 50px;
+            font-size: 18px;
+            background-color: #201590;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .calculator button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo -->
+    <img src="images/uiic logo.png" alt="Company Logo" class="logo">
+
+    <h1 style="text-align: center;">Two-Wheeler Insurance Premium Calculator</h1>
+    <div class="calculator">
+        <label for="age">Age of Vehicle (years):</label>
+        <input type="number" id="age" placeholder="Enter age of vehicle">
+
+        <label for="zone">Zone of Vehicle (A or B):</label>
+        <select id="zone">
+            <option value="A">A</option>
+            <option value="B">B</option>
+        </select>
+
+        <label for="cc">Cubic Capacity (cc):</label>
+        <input type="number" id="cc" placeholder="Enter cubic capacity">
+
+        <label for="idv">Insured Declared Value (IDV):</label>
+        <input type="number" id="idv" placeholder="Enter IDV">
+
+        <button onclick="calculatePremium()">Calculate Premium</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculatePremium() {
+            const age = parseInt(document.getElementById('age').value);
+            const zone = document.getElementById('zone').value;
+            const cc = parseInt(document.getElementById('cc').value);
+            const idv = parseFloat(document.getElementById('idv').value);
+            const resultDiv = document.getElementById('result');
+
+            if (isNaN(age) || isNaN(cc) || isNaN(idv)) {
+                resultDiv.textContent = 'Please fill all fields with valid values.';
+                return;
+            }
+
+            let minimumIDV, liabilityPremium, zoneRate;
+
+            if (cc < 150) {
+                minimumIDV = 5000;
+                liabilityPremium = 135;
+            } else if (cc <= 350) {
+                minimumIDV = 6000;
+                liabilityPremium = 175;
+            } else {
+                minimumIDV = 7000;
+                liabilityPremium = 190;
+            }
+
+            if (idv < minimumIDV) {
+                resultDiv.textContent = `IDV must be at least INR ${minimumIDV}.`;
+                return;
+            }
+
+            if (age < 5) {
+                if (zone === 'B') {
+                    zoneRate = cc < 150 ? 1.676 : cc <= 350 ? 1.760 : 1.844;
+                } else {
+                    zoneRate = cc < 150 ? 1.708 : cc <= 350 ? 1.793 : 1.879;
+                }
+            } else if (age <= 10) {
+                if (zone === 'B') {
+                    zoneRate = cc < 150 ? 1.760 : cc <= 350 ? 1.848 : 1.936;
+                } else {
+                    zoneRate = cc < 150 ? 1.793 : cc <= 350 ? 1.883 : 1.973;
+                }
+            } else {
+                if (zone === 'B') {
+                    zoneRate = cc < 150 ? 1.802 : cc <= 350 ? 1.892 : 1.982;
+                } else {
+                    zoneRate = cc < 150 ? 1.836 : cc <= 350 ? 1.928 : 2.020;
+                }
+            }
+
+            const premium = idv * (zoneRate / 100) + liabilityPremium;
+            resultDiv.textContent = `The total insurance premium is: INR ${premium.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
+

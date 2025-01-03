@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Insurance Premium Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #faf41c;
+        }
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 100px;
+            height: auto;
+        }    
+        .calculator {
+            margin: 50px auto;
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+            background-color: #eef071;
+        }
+        .calculator label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .calculator input, .calculator select {
+            width: 100%;
+            height: 40px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .calculator button {
+            width: 100%;
+            height: 50px;
+            font-size: 18px;
+            background-color: #201590;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .calculator button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <img src="images/uiic logo.png" alt="Company Logo" class="logo">
+
+    <h1 style="text-align: center;">Car Insurance Premium Calculator</h1>
+    <div class="calculator">
+        <label for="age">Age of Vehicle (in years):</label>
+        <input type="number" id="age" placeholder="Enter age of vehicle">
+
+        <label for="zone">Zone:</label>
+        <select id="zone">
+            <option value="A">Zone A</option>
+            <option value="B">Zone B</option>
+        </select>
+
+        <label for="cc">Cubic Capacity (cc):</label>
+        <input type="number" id="cc" placeholder="Enter cubic capacity">
+
+        <label for="idv">Insured Declared Value (IDV):</label>
+        <input type="number" id="idv" placeholder="Enter IDV">
+
+        <button onclick="calculatePremium()">Calculate Premium</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculatePremium() {
+            const age = parseInt(document.getElementById('age').value);
+            const zone = document.getElementById('zone').value;
+            const cc = parseInt(document.getElementById('cc').value);
+            const idv = parseFloat(document.getElementById('idv').value);
+            const resultDiv = document.getElementById('result');
+
+            if (isNaN(age) || isNaN(cc) || isNaN(idv)) {
+                resultDiv.textContent = 'Please fill all fields with valid values.';
+                return;
+            }
+
+            let zoneRate = 0;
+            let liabilityPremium = 0;
+
+            if (cc < 1000) {
+                liabilityPremium = 500;
+            } else if (cc <= 1500) {
+                liabilityPremium = 600;
+            } else {
+                liabilityPremium = 700;
+            }
+
+            if (age < 5) {
+                if (zone === 'B') {
+                    zoneRate = cc < 1000 ? 3.039 : cc <= 1500 ? 3.191 : 3.343;
+                } else if (zone === 'A') {
+                    zoneRate = cc < 1000 ? 3.127 : cc <= 1500 ? 3.283 : 3.440;
+                }
+            } else if (age <= 10) {
+                if (zone === 'B') {
+                    zoneRate = cc < 1000 ? 3.191 : cc <= 1500 ? 3.351 : 3.510;
+                } else if (zone === 'A') {
+                    zoneRate = cc < 1000 ? 3.283 : cc <= 1500 ? 3.447 : 3.612;
+                }
+            } else {
+                if (zone === 'B') {
+                    zoneRate = cc < 1000 ? 3.267 : cc <= 1500 ? 3.430 : 3.594;
+                } else if (zone === 'A') {
+                    zoneRate = cc < 1000 ? 3.529 : cc <= 1500 ? 3.529 : 3.698;
+                }
+            }
+
+            const premium = (idv * zoneRate) / 100 + liabilityPremium;
+
+            resultDiv.textContent = `The calculated insurance premium is: ₹${premium.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>

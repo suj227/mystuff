@@ -1,0 +1,66 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buttons and Calculator</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #faf41c;
+        }
+        
+        .giclogo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 250px;
+            height: auto;
+        } 
+        .emblem {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 85px;
+            height: auto;
+        } 
+        .button {
+            padding: 15px 30px;
+            margin: 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #201590;
+            color: #d0e40a;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!--  UIIC Logo -->
+    <img src="images/uiic logo.png" alt="UIIC Logo" class="logo">
+
+    <!-- GIC Logo -->
+    <img src="images/gic logo.png" alt="GIC Logo" class="giclogo">
+
+    <!-- National Emblem -->
+    <img src="images/national emblem.png" alt="National Emblem" class="emblem">
+
+    <h1>UNITED INDIA INSURANCE COMPANY LIMITED</h1>
+    <h3> Motor Insurance Premium Calculator</h3>
+    <button class="button" onclick="navigateToCalculator('calc1.html')">2 Wheeler</button>
+    <button class="button" onclick="navigateToCalculator('calc2.html')">4 Wheeler</button>
+
+    <script>
+        function navigateToCalculator(page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>
